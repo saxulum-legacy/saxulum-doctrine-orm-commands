@@ -12,9 +12,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Doctrine\Bundle\DoctrineBundle\Command;
+namespace Saxulum\DoctrineOrmCommands\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\EntityGenerator;
 
 /**
@@ -22,8 +23,24 @@ use Doctrine\ORM\Tools\EntityGenerator;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class DoctrineCommand extends ContainerAwareCommand
+abstract class DoctrineCommand extends Command
 {
+    /**
+     * @var ManagerRegistry
+     */
+    protected $managerRegistry;
+
+    /**
+     * @param null            $name
+     * @param ManagerRegistry $managerRegistry
+     */
+    public function __construct($name = null, ManagerRegistry $managerRegistry)
+    {
+        parent::__construct($name);
+
+        $this->managerRegistry = $managerRegistry;
+    }
+
     /**
      * get a doctrine entity generator
      *
@@ -51,7 +68,7 @@ abstract class DoctrineCommand extends ContainerAwareCommand
      */
     protected function getEntityManager($name)
     {
-        return $this->getContainer()->get('doctrine')->getManager($name);
+        return $this->managerRegistry->getManager($name);
     }
 
     /**
@@ -63,6 +80,6 @@ abstract class DoctrineCommand extends ContainerAwareCommand
      */
     protected function getDoctrineConnection($name)
     {
-        return $this->getContainer()->get('doctrine')->getConnection($name);
+        return $this->managerRegistry->getConnection($name);
     }
 }

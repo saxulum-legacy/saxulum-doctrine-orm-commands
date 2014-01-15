@@ -11,11 +11,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Doctrine\Bundle\DoctrineBundle\Command\Proxy;
+namespace Saxulum\DoctrineOrmCommands\Command\Proxy;
 
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
+use Symfony\Component\Console\Application;
 
 /**
  * Provides some helper and convenience methods to configure doctrine commands in the context of bundles
@@ -28,13 +29,14 @@ abstract class DoctrineCommandHelper
     /**
      * Convenience method to push the helper sets of a given entity manager into the application.
      *
-     * @param Application $application
-     * @param string      $emName
+     * @param Application     $application
+     * @param ManagerRegistry $managerRegistry
+     * @param string          $emName
      */
-    public static function setApplicationEntityManager(Application $application, $emName)
+    public static function setApplicationEntityManager(Application $application, ManagerRegistry $managerRegistry, $emName)
     {
         /** @var $em \Doctrine\ORM\EntityManager */
-        $em = $application->getKernel()->getContainer()->get('doctrine')->getManager($emName);
+        $em = $managerRegistry->getManager($emName);
         $helperSet = $application->getHelperSet();
         $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
         $helperSet->set(new EntityManagerHelper($em), 'em');
@@ -43,12 +45,13 @@ abstract class DoctrineCommandHelper
     /**
      * Convenience method to push the helper sets of a given connection into the application.
      *
-     * @param Application $application
-     * @param string      $connName
+     * @param Application     $application
+     * @param ManagerRegistry $managerRegistry
+     * @param string          $connName
      */
-    public static function setApplicationConnection(Application $application, $connName)
+    public static function setApplicationConnection(Application $application, ManagerRegistry $managerRegistry, $connName)
     {
-        $connection = $application->getKernel()->getContainer()->get('doctrine')->getConnection($connName);
+        $connection = $managerRegistry->getConnection($connName);
         $helperSet = $application->getHelperSet();
         $helperSet->set(new ConnectionHelper($connection), 'db');
     }

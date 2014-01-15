@@ -1,0 +1,45 @@
+{
+    "name": "saxulum/saxulum-doctrine-orm-commands",
+    "description": "Saxulum Doctrine ORM Commands",
+    "keywords": ["saxulum", "pimple", "cilex", "silex", "doctrine", "orm", "commands"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Zogg",
+            "email": "dominik.zogg@gmail.com"
+        },
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Benjamin Eberlei",
+            "email": "kontakt@beberlei.de"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "doctrine/orm": "~2.3",
+        "symfony/console": "~2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "dominikzogg/doctrine-orm-manager-registry-provider": "~1.3.0",
+        "dflydev/doctrine-orm-service-provider": "~1.0.4",
+        "saxulum/saxulum-console": "~1.1.0",
+        "silex/silex": "~1.1"
+    },
+    "suggest": {
+        "dominikzogg/doctrine-orm-manager-registry-provider": "~1.3.0",
+        "dflydev/doctrine-orm-service-provider": "~1.0.4",
+        "saxulum/saxulum-console": "~1.1.0",
+        "silex/silex": "~1.1"
+    },
+    "autoload": {
+        "psr-0": { "Saxulum\\DoctrineOrmCommands": "src/" }
+    }
+}
