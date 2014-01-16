@@ -15,7 +15,6 @@
 namespace Saxulum\DoctrineOrmCommands\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\EntityGenerator;
 
 /**
@@ -25,22 +24,6 @@ use Doctrine\ORM\Tools\EntityGenerator;
  */
 abstract class DoctrineCommand extends Command
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
-    /**
-     * @param null            $name
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct($name = null, ManagerRegistry $managerRegistry)
-    {
-        parent::__construct($name);
-
-        $this->managerRegistry = $managerRegistry;
-    }
-
     /**
      * get a doctrine entity generator
      *
@@ -68,7 +51,9 @@ abstract class DoctrineCommand extends Command
      */
     protected function getEntityManager($name)
     {
-        return $this->managerRegistry->getManager($name);
+        $helperSet = $this->getHelperSet();
+
+        return $helperSet->get('doctrine')->getManager($name);
     }
 
     /**
@@ -80,6 +65,8 @@ abstract class DoctrineCommand extends Command
      */
     protected function getDoctrineConnection($name)
     {
-        return $this->managerRegistry->getConnection($name);
+        $helperSet = $this->getHelperSet();
+
+        return $helperSet->get('doctrine')->getConnection($name);
     }
 }

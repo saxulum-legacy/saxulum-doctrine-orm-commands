@@ -13,7 +13,6 @@
  */
 namespace Saxulum\DoctrineOrmCommands\Command\Proxy;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Symfony\Component\Console\Application;
@@ -29,15 +28,13 @@ abstract class DoctrineCommandHelper
     /**
      * Convenience method to push the helper sets of a given entity manager into the application.
      *
-     * @param Application     $application
-     * @param ManagerRegistry $managerRegistry
-     * @param string          $emName
+     * @param Application $application
+     * @param string      $emName
      */
-    public static function setApplicationEntityManager(Application $application, ManagerRegistry $managerRegistry, $emName)
+    public static function setApplicationEntityManager(Application $application, $emName)
     {
-        /** @var $em \Doctrine\ORM\EntityManager */
-        $em = $managerRegistry->getManager($emName);
         $helperSet = $application->getHelperSet();
+        $em = $helperSet->get('doctrine')->getManager($emName);
         $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
         $helperSet->set(new EntityManagerHelper($em), 'em');
     }
@@ -45,14 +42,13 @@ abstract class DoctrineCommandHelper
     /**
      * Convenience method to push the helper sets of a given connection into the application.
      *
-     * @param Application     $application
-     * @param ManagerRegistry $managerRegistry
-     * @param string          $connName
+     * @param Application $application
+     * @param string      $connName
      */
-    public static function setApplicationConnection(Application $application, ManagerRegistry $managerRegistry, $connName)
+    public static function setApplicationConnection(Application $application, $connName)
     {
-        $connection = $managerRegistry->getConnection($connName);
         $helperSet = $application->getHelperSet();
+        $connection = $helperSet->get('doctrine')->getConnection($connName);
         $helperSet->set(new ConnectionHelper($connection), 'db');
     }
 }

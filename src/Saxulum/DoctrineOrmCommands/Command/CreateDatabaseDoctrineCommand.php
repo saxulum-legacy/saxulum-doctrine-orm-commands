@@ -47,7 +47,7 @@ database for:
 
 <info>php app/console doctrine:database:create --connection=default</info>
 EOT
-        );
+            );
     }
 
     /**

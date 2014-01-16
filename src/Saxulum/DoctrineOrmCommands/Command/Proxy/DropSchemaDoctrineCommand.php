@@ -17,7 +17,6 @@ namespace Saxulum\DoctrineOrmCommands\Command\Proxy;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
 
 /**
@@ -28,22 +27,6 @@ use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
  */
 class DropSchemaDoctrineCommand extends DropCommand
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
-    /**
-     * @param null            $name
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct($name = null, ManagerRegistry $managerRegistry)
-    {
-        parent::__construct($name);
-
-        $this->managerRegistry = $managerRegistry;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -62,11 +45,7 @@ class DropSchemaDoctrineCommand extends DropCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        DoctrineCommandHelper::setApplicationEntityManager(
-            $this->getApplication(),
-            $this->managerRegistry,
-            $input->getOption('em')
-        );
+        DoctrineCommandHelper::setApplicationEntityManager($this->getApplication(), $input->getOption('em'));
 
         parent::execute($input, $output);
     }

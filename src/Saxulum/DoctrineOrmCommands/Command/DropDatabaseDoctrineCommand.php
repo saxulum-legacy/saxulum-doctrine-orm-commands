@@ -56,7 +56,7 @@ for:
 <error>Be careful: All data in a given database will be lost when executing
 this command.</error>
 EOT
-        );
+            );
     }
 
     /**
