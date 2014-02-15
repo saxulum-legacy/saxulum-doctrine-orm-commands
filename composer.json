@@ -28,15 +28,15 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
-        "dominikzogg/doctrine-orm-manager-registry-provider": "~1.3.0",
         "dflydev/doctrine-orm-service-provider": "~1.0.4",
         "saxulum/saxulum-console": "~1.1.0",
+        "saxulum/saxulum-doctrine-orm-manager-registry-provider": "~2.0.0",
         "silex/silex": "~1.1"
     },
     "suggest": {
-        "dominikzogg/doctrine-orm-manager-registry-provider": "~1.3.0",
         "dflydev/doctrine-orm-service-provider": "~1.0.4",
         "saxulum/saxulum-console": "~1.1.0",
+        "saxulum/saxulum-doctrine-orm-manager-registry-provider": "~2.0.0",
         "silex/silex": "~1.1"
     },
     "autoload": {

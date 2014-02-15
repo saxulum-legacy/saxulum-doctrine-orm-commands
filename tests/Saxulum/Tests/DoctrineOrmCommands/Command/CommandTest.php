@@ -3,7 +3,6 @@
 namespace Saxulum\Tests\DoctrineOrmCommands\Command;
 
 use Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
-use Dominikzogg\Silex\Provider\DoctrineOrmManagerRegistryProvider;
 use Saxulum\Console\Silex\Provider\ConsoleProvider;
 use Saxulum\DoctrineOrmCommands\Command\CreateDatabaseDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\DropDatabaseDoctrineCommand;
@@ -20,6 +19,7 @@ use Saxulum\DoctrineOrmCommands\Command\Proxy\RunSqlDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\UpdateSchemaDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\ValidateSchemaCommand;
 use Saxulum\DoctrineOrmCommands\Helper\ManagerRegistryHelper;
+use Saxulum\DoctrineOrmManagerRegistry\Silex\Provider\DoctrineOrmManagerRegistryProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\WebTestCase;
