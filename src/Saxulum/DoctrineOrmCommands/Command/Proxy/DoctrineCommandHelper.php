@@ -45,16 +45,8 @@ abstract class DoctrineCommandHelper
         /** @var ManagerRegistry $doctrine */
         $doctrine = $helperSet->get('doctrine');
 
-        if (is_null($doctrine) || !$doctrine instanceof ManagerRegistry) {
-            throw new \InvalidArgumentException('Missing manager registry!');
-        }
-
         /** @var EntityManager $em */
         $em = $doctrine->getManager($emName);
-
-        if (is_null($em) || !$em instanceof EntityManager) {
-            throw new \InvalidArgumentException("Missing entity manager for name {$emName}!");
-        }
 
         $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
         $helperSet->set(new EntityManagerHelper($em), 'em');
@@ -78,16 +70,8 @@ abstract class DoctrineCommandHelper
         /** @var ManagerRegistry $doctrine */
         $doctrine = $helperSet->get('doctrine');
 
-        if (is_null($doctrine) || !$doctrine instanceof ManagerRegistry) {
-            throw new \InvalidArgumentException('Missing manager registry!');
-        }
-
         /** @var Connection $connection */
         $connection = $doctrine->getConnection($connName);
-
-        if (is_null($connection) || !$connection instanceof Connection) {
-            throw new \InvalidArgumentException("Missing connection for name {$connName}!");
-        }
 
         $helperSet->set(new ConnectionHelper($connection), 'db');
     }
