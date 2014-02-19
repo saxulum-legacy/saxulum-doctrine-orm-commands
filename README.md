@@ -6,6 +6,7 @@ saxulum-doctrine-orm-commands
 [![Build Status](https://api.travis-ci.org/saxulum/saxulum-doctrine-orm-commands.png?branch=master)](https://travis-ci.org/saxulum/saxulum-doctrine-orm-commands)
 [![Total Downloads](https://poser.pugx.org/saxulum/saxulum-doctrine-orm-commands/downloads.png)](https://packagist.org/packages/saxulum/saxulum-doctrine-orm-commands)
 [![Latest Stable Version](https://poser.pugx.org/saxulum/saxulum-doctrine-orm-commands/v/stable.png)](https://packagist.org/packages/saxulum/saxulum-doctrine-orm-commands)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/saxulum/saxulum-doctrine-orm-commands/badges/quality-score.png?s=215ae3b20597d3e2aad1daf11dbacdf2aeeef222)](https://scrutinizer-ci.com/g/saxulum/saxulum-doctrine-orm-commands/)
 
 Features
 --------
