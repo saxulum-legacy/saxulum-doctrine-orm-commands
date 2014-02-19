@@ -13,7 +13,10 @@
  */
 namespace Saxulum\DoctrineOrmCommands\Command\Proxy;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Symfony\Component\Console\Application;
 
@@ -27,14 +30,32 @@ abstract class DoctrineCommandHelper
 {
     /**
      * Convenience method to push the helper sets of a given entity manager into the application.
-     *
-     * @param Application $application
-     * @param string      $emName
+     * @param  Application|null          $application
+     * @param $emName
+     * @throws \InvalidArgumentException
      */
-    public static function setApplicationEntityManager(Application $application, $emName)
+    public static function setApplicationEntityManager(Application $application = null, $emName)
     {
+        if (is_null($application)) {
+            throw new \InvalidArgumentException('Application instance needed!');
+        }
+
         $helperSet = $application->getHelperSet();
-        $em = $helperSet->get('doctrine')->getManager($emName);
+
+        /** @var ManagerRegistry $doctrine */
+        $doctrine = $helperSet->get('doctrine');
+
+        if (is_null($doctrine) || !$doctrine instanceof ManagerRegistry) {
+            throw new \InvalidArgumentException('Missing manager registry!');
+        }
+
+        /** @var EntityManager $em */
+        $em = $doctrine->getManager($emName);
+
+        if (is_null($em) || !$em instanceof EntityManager) {
+            throw new \InvalidArgumentException("Missing entity manager for name {$emName}!");
+        }
+
         $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
         $helperSet->set(new EntityManagerHelper($em), 'em');
     }
@@ -42,13 +63,32 @@ abstract class DoctrineCommandHelper
     /**
      * Convenience method to push the helper sets of a given connection into the application.
      *
-     * @param Application $application
-     * @param string      $connName
+     * @param  Application               $application
+     * @param $connName
+     * @throws \InvalidArgumentException
      */
-    public static function setApplicationConnection(Application $application, $connName)
+    public static function setApplicationConnection(Application $application = null, $connName)
     {
+        if (is_null($application)) {
+            throw new \InvalidArgumentException('Application instance needed!');
+        }
+
         $helperSet = $application->getHelperSet();
-        $connection = $helperSet->get('doctrine')->getConnection($connName);
+
+        /** @var ManagerRegistry $doctrine */
+        $doctrine = $helperSet->get('doctrine');
+
+        if (is_null($doctrine) || !$doctrine instanceof ManagerRegistry) {
+            throw new \InvalidArgumentException('Missing manager registry!');
+        }
+
+        /** @var Connection $connection */
+        $connection = $doctrine->getConnection($connName);
+
+        if (is_null($connection) || !$connection instanceof Connection) {
+            throw new \InvalidArgumentException("Missing connection for name {$connName}!");
+        }
+
         $helperSet->set(new ConnectionHelper($connection), 'db');
     }
 }
