@@ -258,7 +258,7 @@ class CommandTest extends WebTestCase
      */
     protected function getCacheDir()
     {
-        $cacheDir = $this->getTestDirectoryPath() . '/cache';
+        $cacheDir = $this->getTestDirectoryPath() . '/../cache';
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir, 0777, true);
         }
