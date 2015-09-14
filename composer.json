@@ -40,6 +40,6 @@
         "silex/silex": "~1.1"
     },
     "autoload": {
-        "psr-0": { "Saxulum\\DoctrineOrmCommands": "src/" }
+        "psr-4": { "Saxulum\\DoctrineOrmCommands\\": "src/" }
     }
 }

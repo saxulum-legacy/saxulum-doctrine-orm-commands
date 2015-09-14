@@ -190,7 +190,7 @@ class CommandTest extends WebTestCase
         $app->register(new DoctrineServiceProvider(), array(
             'db.options' => array(
                 'driver'   => 'pdo_sqlite',
-                'path'     => $this->getTestDirectoryPath() .'/sqlite.db',
+                'path'     => $this->getCacheDir() .'/sqlite.db',
             ),
         ));
         $app->register(new DoctrineOrmServiceProvider(), array(
@@ -199,7 +199,7 @@ class CommandTest extends WebTestCase
                     array(
                         'type' => 'annotation',
                         'namespace' => 'Saxulum\Tests\DoctrineOrmCommands\Entity',
-                        'path' => $this->getTestDirectoryPath() .'/Saxulum/Tests/DoctrineOrmCommands/Entity',
+                        'path' => $this->getTestDirectoryPath() .'/Entity',
                         'use_simple_annotation_reader' => false,
                     ),
                 ),
@@ -245,8 +245,24 @@ class CommandTest extends WebTestCase
         return $app;
     }
 
+    /**
+     * @return string
+     */
     protected function getTestDirectoryPath()
     {
-        return realpath(__DIR__.'/../../../..');
+        return realpath(__DIR__.'/..');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCacheDir()
+    {
+        $cacheDir = $this->getTestDirectoryPath() . '/cache';
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir, 0777, true);
+        }
+
+        return $cacheDir;
     }
 }
