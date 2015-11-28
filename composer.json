@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.3,<8.0",
         "doctrine/orm": "~2.3",
         "symfony/console": "~2.3"
     },
