@@ -10,6 +10,7 @@ use Saxulum\DoctrineOrmCommands\Command\Proxy\ClearMetadataCacheDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\ClearResultCacheDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\ConvertMappingDoctrineCommand;
+use Saxulum\DoctrineOrmCommands\Command\Proxy\GenerateEntitiesDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\CreateSchemaDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\DropSchemaDoctrineCommand;
 use Saxulum\DoctrineOrmCommands\Command\Proxy\EnsureProductionSettingsDoctrineCommand;
@@ -26,6 +27,8 @@ use Silex\WebTestCase;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use org\bovigo\vfs\vfsStream;
+
 
 class CommandTest extends WebTestCase
 {
@@ -99,6 +102,29 @@ class CommandTest extends WebTestCase
         $this->assertFileExists($xmlPath);
         unlink($xmlPath);
     }
+
+    public function testGenerateEnitiesCommand()
+    {
+        $this->root = vfsStream::setup();
+        $input = new ArrayInput(array(
+            'command' => 'doctrine:generate:entities',
+            'dest-path' => $this->getTestDirectoryPath(),
+        ));
+        $output = new BufferedOutput();
+        $this->app['console']->run($input, $output);
+        echo($output->fetch());
+
+        $outfile = $this->getTestDirectoryPath() . '/Saxulum/Tests/DoctrineOrmCommands/Entity/Example.php';
+
+        $this->assertFileExists($outfile);
+        ## clean up after ourselves
+        $dirPath = $this->getTestDirectoryPath() . '/Saxulum';
+        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+          $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
+        }
+        rmdir($dirPath);
+    }
+
 
     public function testCacheClearMetadataCommand()
     {
@@ -229,6 +255,7 @@ class CommandTest extends WebTestCase
                 $commands[] = new RunDqlDoctrineCommand;
                 $commands[] = new RunSqlDoctrineCommand;
                 $commands[] = new ConvertMappingDoctrineCommand;
+                $commands[] = new GenerateEntitiesDoctrineCommand;
                 $commands[] = new ClearMetadataCacheDoctrineCommand;
                 $commands[] = new ClearQueryCacheDoctrineCommand;
                 $commands[] = new ClearResultCacheDoctrineCommand;
