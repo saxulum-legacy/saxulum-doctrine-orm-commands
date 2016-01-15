@@ -27,7 +27,6 @@ use Silex\WebTestCase;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use org\bovigo\vfs\vfsStream;
 
 
 class CommandTest extends WebTestCase
@@ -105,7 +104,6 @@ class CommandTest extends WebTestCase
 
     public function testGenerateEnitiesCommand()
     {
-        $this->root = vfsStream::setup();
         $input = new ArrayInput(array(
             'command' => 'doctrine:generate:entities',
             'dest-path' => $this->getTestDirectoryPath(),
