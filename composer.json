@@ -41,5 +41,6 @@
     },
     "autoload": {
         "psr-4": { "Saxulum\\DoctrineOrmCommands\\": "src/" }
-    }
+    },
+    "abandoned": true
 }
